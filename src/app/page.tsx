@@ -9,7 +9,7 @@ const Home = () => {
   if (error) return <p>Error : {error.message}</p>;
 
   return data.books.map((item: { title: string }, index: number) => (
-    <div>
+    <div key={`book-${index}`}>
       <h3>{item.title}</h3>
     </div>
   ));
