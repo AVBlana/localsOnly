@@ -8,9 +8,9 @@ const Home = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
 
-  return data.books.map(({ title }: { title: string }) => (
-    <div>
-      <h3>{title}</h3>
+  return data.books.map((item: { title: string }, index: number) => (
+    <div key={`book-${index}`}>
+      <h3>{item.title}</h3>
     </div>
   ));
 };
