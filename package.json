@@ -6,8 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint:es": "next lint",
+    "lint:typescript": "tsc"
   },
+  "pre-commit": [
+    "lint:es",
+    "lint:typescript"
+  ],
   "dependencies": {
     "@apollo/client": "^3.8.7",
     "graphql": "^16.8.1",
