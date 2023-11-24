@@ -1,13 +1,15 @@
 "use client";
 
 const IS_DEVELOPMENT = process.env.NODE_EN === "development";
+const IS_STAGING = process.env.NEXT_PUBLIC_IS_STAGING === "true";
+const IS_PRODUCTION = process.env.NEXT_PUBLIC_IS_PRODUCTION === "true";
 
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 const client = new ApolloClient({
   uri: IS_DEVELOPMENT
     ? "http://localhost:4000/graphql"
-    : "https://locals-only-da073e224bd3.herokuapp.com/graphql",
+    : process.env.NEXT_PUBLIC_BACKEND_URL,
   cache: new InMemoryCache(),
 });
 
