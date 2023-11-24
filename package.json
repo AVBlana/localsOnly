@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint:es": "next lint",
-    "lint:typescript": "tsc"
+    "lint:typescript": "tsc",
+    "generate": "graphql-codegen"
   },
   "pre-commit": [
     "lint:es",
@@ -15,6 +16,11 @@
   ],
   "dependencies": {
     "@apollo/client": "^3.8.7",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/client-preset": "^4.1.0",
+    "@graphql-codegen/typescript-react-apollo": "^4.1.0",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1",
+    "@graphql-typed-document-node/core": "^3.2.0",
     "graphql": "^16.8.1",
     "next": "14.0.3",
     "react": "^18",
