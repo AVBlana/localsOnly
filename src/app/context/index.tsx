@@ -1,6 +1,6 @@
 "use client";
 
-const IS_DEVELOPMENT = process.env.NODE_ENV;
+const IS_DEVELOPMENT = process.env.NODE_EN === "development";
 
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
