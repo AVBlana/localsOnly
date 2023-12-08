@@ -5,6 +5,8 @@ const IS_STAGING = process.env.NEXT_PUBLIC_IS_STAGING === "true";
 const IS_PRODUCTION = process.env.NEXT_PUBLIC_IS_PRODUCTION === "true";
 
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { ThemeProvider } from "../types/styled-components";
+import { theme } from "../theme/constants";
 
 const client = new ApolloClient({
   uri: IS_DEVELOPMENT
@@ -18,5 +20,9 @@ export const Store = ({
 }: {
   children: JSX.Element | JSX.Element[];
 }) => {
-  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+  return (
+    <ApolloProvider client={client}>
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+    </ApolloProvider>
+  );
 };
