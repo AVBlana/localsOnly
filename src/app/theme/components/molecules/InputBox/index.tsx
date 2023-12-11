@@ -9,7 +9,7 @@ type InputProps = {
 
 export function InputBox({ type, label, value, onChange }: InputProps) {
   return (
-    <div>
+    <div style={{ display: "flex", gap: 10 }}>
       <label>{label}</label>
       <input
         type={type}

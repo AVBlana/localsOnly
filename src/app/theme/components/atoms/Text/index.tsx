@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { theme } from "../constants";
+import { theme } from "../../../constants";
 
 export interface IText {
   secondaryFont?: boolean;

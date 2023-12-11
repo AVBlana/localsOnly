@@ -2,13 +2,16 @@
 
 import { Booking, Experience } from "@/gql/graphql";
 import { gql, useQuery } from "@apollo/client";
-import { useState } from "react";
-import { RadioGroup } from "./theme/RadioButton";
-import { CheckboxGroup } from "./theme/CheckBox";
-import { InputBox } from "./theme/InputBox";
-import Button from "./theme/Button";
+import React, { useState } from "react";
+import { RadioButton } from "./theme/components/molecules/RadioButton";
+import { Checkbox } from "./theme/components/molecules/CheckBox";
+import { InputBox } from "./theme/components/molecules/InputBox";
+import Button from "./theme/components/atoms/Button";
 import styled from "styled-components";
-import { Text } from "./theme/Text";
+import { Text } from "./theme/components/atoms/Text";
+import { DynamicTextArea } from "./theme/components/molecules/DynamicTextArea";
+import Spacer from "./theme/components/atoms/Spacer";
+import { RangeSlider } from "./theme/components/molecules/RangeSlider";
 
 const Home = () => {
   const {
@@ -28,14 +31,44 @@ const Home = () => {
     { value: "other", label: "Other" },
   ];
 
-  const [value, setValue] = useState<string | null>(null);
-  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  const checkboxOptions = [
+    { label: "Option 1", checked: false },
+    { label: "Option 2", checked: false },
+    { label: "Option 3", checked: false },
+  ];
 
-  const handleCheckboxChange = (values: string[]) => {
-    setCheckedItems(values);
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState<string[]>([]);
+
+  const handleCheckboxChange = (label: string, checked: boolean) => {
+    if (checked) {
+      setSelectedCheckboxes((prevSelected) => [...prevSelected, label]);
+    } else {
+      setSelectedCheckboxes((prevSelected) =>
+        prevSelected.filter((item) => item !== label)
+      );
+    }
   };
 
+  const [isSelected, setIsSelected] = useState<string | null>(null);
+  // const [isChecked, setIsChecked] = useState(false);
   const [input, setInput] = useState("");
+  const [textValue, setTextValue] = useState("");
+  const [startValue, setStartValue] = useState<number>(25);
+
+  const handleSliderChange = (start: number) => {
+    setStartValue(start);
+  };
+  const handleRadioChange = (value: string | null) => {
+    setIsSelected(value);
+  };
+
+  const handleTextChange = (value: string) => {
+    setTextValue(value);
+  };
+
+  // const handleCheckboxChange = (checked: boolean) => {
+  //   setIsChecked(checked);
+  // };
 
   const handleInputChange = (value: string) => {
     setInput(value);
@@ -68,28 +101,54 @@ const Home = () => {
         ))}
       </div>
       <StyledContainer>
-        <h1>RadioButton Group</h1>
-        <RadioGroup
-          name="gender"
-          items={items}
-          value={value}
-          onChange={setValue}
+        <Text white bold huge uppercase>
+          Radio Buttons
+        </Text>
+        <RadioButton
+          label={"Option 1"}
+          value={isSelected}
+          onChange={() => {
+            handleRadioChange("Option 1");
+          }}
+        />
+        <RadioButton
+          label="Option 2"
+          value={isSelected}
+          onChange={() => {
+            handleRadioChange("Option 2");
+          }}
+        />
+        <RadioButton
+          label="Option 3"
+          value={isSelected}
+          onChange={() => {
+            handleRadioChange("Option 3");
+          }}
         />
       </StyledContainer>
       <StyledContainer>
-        <Text huge red uppercase>
+        <Text huge bold red uppercase>
           CheckBox Group
         </Text>
-        <CheckboxGroup
-          name="gender"
-          items={items}
-          checkedItems={checkedItems}
-          onChange={handleCheckboxChange}
-        />
-        <p>Checked items: {checkedItems.join(", ")}</p>
+        {items.map((item) => (
+          <React.Fragment key={item.value}>
+            <Checkbox
+              label={item.label}
+              checked={selectedCheckboxes.includes(item.label)}
+              onChange={(checked) => handleCheckboxChange(item.label, checked)}
+            />
+          </React.Fragment>
+        ))}
+        <Text white bigger bold>
+          {selectedCheckboxes.length > 0
+            ? `Selected Checkboxes: ${selectedCheckboxes.join(", ")}`
+            : "No checkboxes selected"}
+        </Text>
       </StyledContainer>
       <StyledContainer>
-        <h1>InputBox</h1>
+        <Text white bold huge uppercase>
+          Inputbox
+        </Text>
         <InputBox
           type="text"
           label="Label"
@@ -99,7 +158,9 @@ const Home = () => {
         <p>Label: {input}</p>
       </StyledContainer>
       <StyledContainer style={{ display: "flex", gap: 10 }}>
-        <h1>Buttons</h1>
+        <Text white bold huge uppercase>
+          Buttons
+        </Text>
         <Button label="Click me" onClick={handleClick} />
         <br />
         <Button label="Disabled Button" onClick={handleClick} disabled />
@@ -110,6 +171,38 @@ const Home = () => {
           label="Styled Button"
           onClick={handleClick}
           style={{ backgroundColor: "green", color: "white", padding: 5 }}
+        />
+      </StyledContainer>
+
+      <StyledContainer>
+        <Text white bold huge uppercase>
+          Dynamic TextArea
+        </Text>
+        <DynamicTextArea
+          placeholder="Your Placeholder"
+          value={textValue}
+          onChange={handleTextChange}
+        />
+      </StyledContainer>
+      <StyledContainer>
+        <Spacer huge />
+        <Text white bold huge uppercase>
+          Spacer
+        </Text>
+        <Spacer biggest />
+        <Spacer hasLine />
+        <Spacer medium />
+      </StyledContainer>
+      <StyledContainer style={{ display: "flex", flexDirection: "column" }}>
+        <Text huge uppercase bold white>
+          Range Value: {startValue}
+        </Text>
+        <RangeSlider
+          min={0}
+          max={100}
+          step={1}
+          startValue={startValue}
+          onChange={handleSliderChange}
         />
       </StyledContainer>
     </div>

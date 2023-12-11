@@ -6,6 +6,7 @@ export const theme = {
     white: "white",
     black: "black",
     red: "#f26666",
+    gray: "#c2c2c2",
   },
   spacings: {
     tiny: 8,
