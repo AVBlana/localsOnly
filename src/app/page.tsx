@@ -12,6 +12,7 @@ import { Text } from "./theme/components/atoms/Text";
 import { DynamicTextArea } from "./theme/components/molecules/DynamicTextArea";
 import Spacer from "./theme/components/atoms/Spacer";
 import { RangeSlider } from "./theme/components/molecules/RangeSlider";
+import { DynamicSelect } from "./theme/components/atoms/Select";
 
 const Home = () => {
   const {
@@ -36,6 +37,23 @@ const Home = () => {
     { label: "Option 2", checked: false },
     { label: "Option 3", checked: false },
   ];
+
+  interface Product {
+    id: string;
+    name: string;
+    price: number;
+  }
+
+  const products: Product[] = [
+    { id: "1", name: "Product 1", price: 10 },
+    { id: "2", name: "Product 2", price: 20 },
+    { id: "3", name: "Product 3", price: 30 },
+    { id: "4", name: "Product 4", price: 40 },
+    { id: "5", name: "Product 5", price: 50 },
+  ];
+
+  const [selectedProductID, setSelectedProductID] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<string[]>([]);
 
@@ -84,7 +102,7 @@ const Home = () => {
 
   return (
     <div>
-      <div>
+      {/* <div>
         {dataExperiences?.experiences?.map(
           (item: Experience, index: number) => (
             <div key={`experience-${index}`}>
@@ -99,7 +117,7 @@ const Home = () => {
             <h3>{item.id}</h3>
           </div>
         ))}
-      </div>
+      </div> */}
       <StyledContainer>
         <Text white bold huge uppercase>
           Radio Buttons
@@ -204,6 +222,22 @@ const Home = () => {
           startValue={startValue}
           onChange={handleSliderChange}
         />
+      </StyledContainer>
+      <StyledContainer>
+        <DynamicSelect
+          label="Products"
+          items={products}
+          value={selectedProductID}
+          labelExtractor={({ name }) => name}
+          valueExtractor={({ id }) => id}
+          onValueChange={(value, selectedValue) => {
+            setSelectedProductID(value);
+            setSelectedProduct(selectedValue);
+          }}
+        />
+        <Text white bold big>
+          Selected item: {JSON.stringify(selectedProduct, null, 2)}
+        </Text>
       </StyledContainer>
     </div>
   );
