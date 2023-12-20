@@ -13,6 +13,9 @@ import { DynamicTextArea } from "./theme/components/molecules/DynamicTextArea";
 import Spacer from "./theme/components/atoms/Spacer";
 import { RangeSlider } from "./theme/components/molecules/RangeSlider";
 import { DynamicSelect } from "./theme/components/atoms/Select";
+import Tabs from "./theme/components/molecules/Tabs";
+import Tab from "./theme/components/atoms/Tab";
+import Accordion from "./theme/components/molecules/Accordion";
 
 const Home = () => {
   const {
@@ -52,6 +55,12 @@ const Home = () => {
     { id: "5", name: "Product 5", price: 50 },
   ];
 
+  const tabs = {
+    firstTab: "Tab 1",
+    secondTab: "Tab 2",
+    thirdTab: "Tab 3",
+  };
+
   const [selectedProductID, setSelectedProductID] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
@@ -67,11 +76,37 @@ const Home = () => {
     }
   };
 
+  const [accordionState, setAccordionState] = useState<boolean[]>([
+    false,
+    false,
+  ]);
+
+  const toggleAccordion = (index: number) => {
+    setAccordionState((prev) => {
+      const newState = [...prev];
+      newState[index] = !newState[index];
+      return newState;
+    });
+  };
+
+  const views = [
+    "Overview",
+    "Projects",
+    "Habits",
+    "Goals",
+    "Tasks",
+    "Settings",
+    "Account",
+    "Help",
+  ] as const;
+  type View = (typeof views)[number];
+
   const [isSelected, setIsSelected] = useState<string | null>(null);
   // const [isChecked, setIsChecked] = useState(false);
   const [input, setInput] = useState("");
   const [textValue, setTextValue] = useState("");
   const [startValue, setStartValue] = useState<number>(25);
+  const [activeView, setActiveView] = useState<View>("Overview");
 
   const handleSliderChange = (start: number) => {
     setStartValue(start);
@@ -239,6 +274,35 @@ const Home = () => {
           Selected item: {JSON.stringify(selectedProduct, null, 2)}
         </Text>
       </StyledContainer>
+      <StyledContainer>
+        <Text white bold huge uppercase>
+          Tabs Component
+        </Text>
+        <Tabs>
+          <Tab title="Lemon">Lemon is yellow</Tab>
+          <Tab title="Strawberry">Strawberry is red</Tab>
+          <Tab title="Pear">Pear is green</Tab>
+        </Tabs>
+      </StyledContainer>
+      <StyledContainer>
+        <Text white bold huge uppercase>
+          Accordion Component
+        </Text>
+        <Accordion
+          title="Section 1"
+          isOpen={accordionState[0]}
+          onToggle={() => toggleAccordion(0)}
+        >
+          <p>Content for section 1</p>
+        </Accordion>
+        <Accordion
+          title="Section 2"
+          isOpen={accordionState[1]}
+          onToggle={() => toggleAccordion(1)}
+        >
+          <p>Content for section 2</p>
+        </Accordion>
+      </StyledContainer>
     </div>
   );
 };
@@ -263,6 +327,7 @@ const GET_BOOKINGS = gql`
 
 const StyledContainer = styled.div`
   padding-top: 2rem;
+  padding-bottom: 2rem;
 `;
 
 export default Home;
