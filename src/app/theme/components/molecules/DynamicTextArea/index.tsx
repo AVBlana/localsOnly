@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 type DynamicTextAreaProps = {
   placeholder?: string;
@@ -11,17 +11,20 @@ export function DynamicTextArea({
   value,
   onChange,
 }: DynamicTextAreaProps) {
-  const calculateRowsAndCols = (text: string) => {
-    const lines = text.split("\n");
-    const maxCols = Math.max(...lines.map((line) => line.length));
-    const numRows = lines.length;
-    return {
-      rows: numRows + 1,
-      cols: Math.max(maxCols, 20),
-    };
-  };
+  const [rows, setRows] = useState<number>(1);
+  const [cols, setCols] = useState<number>(20);
 
-  const { rows, cols } = calculateRowsAndCols(value);
+  useEffect(() => {
+    const calculateRowsAndCols = (text: string) => {
+      const lines = text.split("\n");
+      const maxCols = Math.max(...lines.map((line) => line.length));
+      const numRows = lines.length;
+      setRows(numRows + 1);
+      setCols(Math.max(maxCols, 20));
+    };
+
+    calculateRowsAndCols(value);
+  }, [value]);
 
   return (
     <div>

@@ -2,19 +2,32 @@ import React from "react";
 
 type RadioProps = {
   label: string;
-  value: string | null;
+  value: string;
+  isSelected: boolean;
   onChange: (value: string) => void;
+  groupName: string;
 };
 
-export function RadioButton({ label, value, onChange }: RadioProps) {
+export function RadioButton({
+  label,
+  value,
+  isSelected,
+  onChange,
+  groupName,
+}: RadioProps) {
+  const handleRadioChange = () => {
+    onChange(value);
+  };
+
   return (
     <div style={{ display: "flex", gap: 10 }}>
       <input
         type="radio"
-        value={label}
+        name={groupName}
+        value={value}
         id={label}
-        checked={value === label}
-        onChange={() => onChange(label)}
+        checked={isSelected}
+        onChange={handleRadioChange}
       />
       <label htmlFor={label}>{label}</label>
     </div>
