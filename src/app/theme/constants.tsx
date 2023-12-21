@@ -39,7 +39,6 @@ type CustomTheme = DefaultTheme & {
     big: string;
     small: string;
   };
-  radius: number;
   media: {
     tablet: string;
     desktop: string;
@@ -96,7 +95,6 @@ const theme: CustomTheme = {
     big: "0px 4px 8px rgba(0, 0, 0, 0.1)",
     small: "0px 2px 4px rgba(0, 0, 0, 0.1)",
   },
-  radius: 4, // Adjust this value as needed
   media: {
     tablet: "768px",
     desktop: "1024px",
